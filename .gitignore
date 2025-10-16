@@ -1,14 +1,21 @@
-other/
+checkpoints/
+workdir/
+wandb/
+logs/
+log/
+runs/
+ntfm_jobs/
+*.pth
+*.h5
 
 __pycache__/
+*.py[cod]
 .ruff_cache/
 .venv/
 
 *.egg-info/
 
 *.zip
-*.pth
-*.h5
 
 .DS_Store
 
