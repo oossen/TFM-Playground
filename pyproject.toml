@@ -3,7 +3,7 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "nanotabpfn"
+name = "tfmplayground"
 version = "0.0.1"
 authors = [
     { name = "Alexander Pfefferle", email = "pfeffera@cs.uni-freiburg.de" },
@@ -30,8 +30,8 @@ dependencies = [
 wandb = ["wandb>=0.20"]
 tensorboard = ["tensorboard>=2.19"]
 [project.urls]
-Homepage = "https://github.com/PriorLabs/nanoTabPFN"
-Issues = "https://github.com/PriorLabs/nanoTabPFN/issues"
+Homepage = "https://github.com/automl/TFM-Playground"
+Issues = "https://github.com/automl/TFM-Playground/issues"
 
 [tool.setuptools]
-packages = { find = { include = ["nanotabpfn"] } }
+packages = { find = { include = ["tfmplayground"] } }

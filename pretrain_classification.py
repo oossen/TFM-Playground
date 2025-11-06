@@ -4,28 +4,28 @@ import torch
 from sklearn.metrics import accuracy_score, roc_auc_score
 from torch import nn
 
-from nanotabpfn.callbacks import ConsoleLoggerCallback, WandbLoggerCallback
-from nanotabpfn.evaluation import get_openml_predictions, TOY_TASKS_CLASSIFICATION, TABARENA_TASKS
-from nanotabpfn.interface import NanoTabPFNClassifier
-from nanotabpfn.model import NanoTabPFNModel
-from nanotabpfn.priors import PriorDumpDataLoader
-from nanotabpfn.train import train
-from nanotabpfn.utils import get_default_device, set_randomness_seed
+from tfmplayground.callbacks import ConsoleLoggerCallback, WandbLoggerCallback
+from tfmplayground.evaluation import get_openml_predictions, TOY_TASKS_CLASSIFICATION, TABARENA_TASKS
+from tfmplayground.interface import NanoTabPFNClassifier
+from tfmplayground.model import NanoTabPFNModel
+from tfmplayground.priors import PriorDumpDataLoader
+from tfmplayground.train import train
+from tfmplayground.utils import get_default_device, set_randomness_seed
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-priordump", type=str, default="/50x3_3_100k_classification.h5", help="path to the prior dump")
-parser.add_argument("-heads", type=int, default=6, help="number of attention heads")
-parser.add_argument("-embeddingsize", type=int, default=192, help="the size of the embeddings used for the cells")
-parser.add_argument("-hiddensize", type=int, default=768, help="size of the hidden layer of the mlps")
-parser.add_argument("-layers", type=int, default=6, help="number of transformer layers")
-parser.add_argument("-batchsize", type=int, default=1, help="batch size used during training (before gradient accumulation)")
-parser.add_argument("-accumulate", type=int, default=1, help="number of gradients to accumulate before updating the weights")
-parser.add_argument("-lr", type=float, default=1e-4, help="learning rate")
-parser.add_argument("-steps", type=int, default=100, help="number of steps that constitute one epoch (important for lr scheduler)")
-parser.add_argument("-epochs", type=int, default=10000, help="number of epochs to train for")
-parser.add_argument("-loadcheckpoint", type=str, default=None, help="checkpoint from which to continue training")
-parser.add_argument("-multigpu", action="store_true", help="enable multi-GPU training using data parallelism")
-parser.add_argument("-runname", type=str, default="nanotabpfn", help="name of the training run, will be used to store the training checkpoints and for WandB logging")
+parser.add_argument("--priordump", type=str, default="/50x3_3_100k_classification.h5", help="path to the prior dump")
+parser.add_argument("--heads", type=int, default=6, help="number of attention heads")
+parser.add_argument("--embeddingsize", type=int, default=192, help="the size of the embeddings used for the cells")
+parser.add_argument("--hiddensize", type=int, default=768, help="size of the hidden layer of the mlps")
+parser.add_argument("--layers", type=int, default=6, help="number of transformer layers")
+parser.add_argument("--batchsize", type=int, default=1, help="batch size used during training (before gradient accumulation)")
+parser.add_argument("--accumulate", type=int, default=1, help="number of gradients to accumulate before updating the weights")
+parser.add_argument("--lr", type=float, default=1e-4, help="learning rate")
+parser.add_argument("--steps", type=int, default=100, help="number of steps that constitute one epoch (important for lr scheduler)")
+parser.add_argument("--epochs", type=int, default=10000, help="number of epochs to train for")
+parser.add_argument("--loadcheckpoint", type=str, default=None, help="checkpoint from which to continue training")
+parser.add_argument("--multigpu", action="store_true", help="enable multi-GPU training using data parallelism")
+parser.add_argument("--runname", type=str, default="nanotabpfn", help="name of the training run, will be used to store the training checkpoints and for WandB logging")
 
 args = parser.parse_args()
 
@@ -85,8 +85,8 @@ class ProductionEvaluationLoggerCallback(WandbLoggerCallback):
         print(f'epoch {epoch:5d} | time {epoch_time:5.2f}s | mean loss {loss:5.2f} | avg roc auc {avg_score:.3f}',
               flush=True)
 
-callbacks = [ProductionEvaluationLoggerCallback('nanoTFM', args.runname)]
-#callbacks = [ToyEvaluationLoggerCallback(TOY_TASKS_CLASSIFICATION)]
+#callbacks = [ProductionEvaluationLoggerCallback('nanoTFM', args.runname)]
+callbacks = [ToyEvaluationLoggerCallback(TOY_TASKS_CLASSIFICATION)]
 
 trained_model, loss = train(
     model=model,

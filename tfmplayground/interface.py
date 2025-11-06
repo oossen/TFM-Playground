@@ -11,8 +11,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OrdinalEncoder, FunctionTransformer
 
-from nanotabpfn.model import NanoTabPFNModel
-from nanotabpfn.utils import get_default_device
+from tfmplayground.model import NanoTabPFNModel
+from tfmplayground.utils import get_default_device
 
 def init_model_from_state_dict_file(file_path):
     """
@@ -84,10 +84,11 @@ class NanoTabPFNClassifier():
         if device is None:
             device = get_default_device()
         if model is None:
-            model = 'nanotabpfn.pth'
+            model = 'checkpoints/nanotabpfn.pth'
             if not os.path.isfile(model):
+                os.makedirs("checkpoints", exist_ok=True)
                 print('No cached model found, downloading model checkpoint.')
-                response = requests.get('https://ml.informatik.uni-freiburg.de/research-artifacts/pfefferle/nanoTabPFN/nanotabpfn_classifier.pth')
+                response = requests.get('https://ml.informatik.uni-freiburg.de/research-artifacts/pfefferle/TFM-Playground/nanotabpfn_classifier.pth')
                 with open(model, 'wb') as f:
                     f.write(response.content)
         if isinstance(model, str):
@@ -132,16 +133,17 @@ class NanoTabPFNRegressor():
         if device is None:
             device = get_default_device()
         if model is None:
-            model = 'nanotabpfn_regressor.pth'
-            dist = 'nanotabpfn_regressor_buckets.pth'
+            os.makedirs("checkpoints", exist_ok=True)
+            model = 'checkpoints/nanotabpfn_regressor.pth'
+            dist = 'checkpoints/nanotabpfn_regressor_buckets.pth'
             if not os.path.isfile(model):
                 print('No cached model found, downloading model checkpoint.')
-                response = requests.get('https://ml.informatik.uni-freiburg.de/research-artifacts/pfefferle/nanoTabPFN/nanotabpfn_regressor.pth')
+                response = requests.get('https://ml.informatik.uni-freiburg.de/research-artifacts/pfefferle/TFM-Playground/nanotabpfn_regressor.pth')
                 with open(model, 'wb') as f:
                     f.write(response.content)
             if not os.path.isfile(dist):
                 print('No cached bucket edges found, downloading bucket edges.')
-                response = requests.get('https://ml.informatik.uni-freiburg.de/research-artifacts/pfefferle/nanoTabPFN/nanotabpfn_regressor_buckets.pth')
+                response = requests.get('https://ml.informatik.uni-freiburg.de/research-artifacts/pfefferle/TFM-Playground/nanotabpfn_regressor_buckets.pth')
                 with open(dist, 'wb') as f:
                     f.write(response.content)
         if isinstance(model, str):

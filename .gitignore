@@ -4,7 +4,7 @@ wandb/
 logs/
 log/
 runs/
-ntfm_jobs/
+tfmplayground_jobs/
 *.pth
 *.h5
 

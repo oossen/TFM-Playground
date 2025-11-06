@@ -8,7 +8,7 @@ from openml.tasks import TaskType
 from sklearn.metrics import balanced_accuracy_score, roc_auc_score, r2_score
 from sklearn.preprocessing import LabelEncoder
 
-from nanotabpfn.interface import NanoTabPFNRegressor, NanoTabPFNClassifier
+from tfmplayground.interface import NanoTabPFNRegressor, NanoTabPFNClassifier
 
 TOY_TASKS_REGRESSION = [
     362443, # diabetes
